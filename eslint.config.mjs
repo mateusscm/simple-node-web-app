@@ -48,6 +48,14 @@ export default defineConfig([
       quotes: ["error", "double"],
       semi: ["warn", "always"],
       "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
   },
 ]);
