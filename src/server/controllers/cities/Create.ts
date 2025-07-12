@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CreateCityInput, createCitySchema } from "../../schemas";
 import { z } from "zod";
+import { StatusCodes } from "http-status-codes";
 
 export const create = async (
   req: Request<{}, {}, CreateCityInput>,
@@ -10,16 +11,17 @@ export const create = async (
 
   try {
     validatedData = await createCitySchema.parse(req.body);
-  } catch (error) {
-    const zodError = error as z.ZodError;
-    console.log("Validation error:", zodError.errors);
+  } catch (err) {
+    const zodError = err as z.ZodError;
+    const errors: Record<string, string> = {};
 
-    return res.status(400).json({
-      errors: zodError.errors.map((err) => ({
-        field: err.path.join("."),
-        message: err.message,
-        code: err.code,
-      })),
+    zodError.errors.forEach((error) => {
+      if (!error.path.length) return;
+      errors[error.path.join(".")] = error.message;
+    });
+
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      errors,
     });
   }
 
