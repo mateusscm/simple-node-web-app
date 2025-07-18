@@ -23,5 +23,15 @@ router.post(
   CitiesController.createValidation,
   CitiesController.create
 );
+router.put(
+  "/cities/:id",
+  CitiesController.updateByIdValidation,
+  CitiesController.updateById
+);
+router.delete(
+  "/cities/:id",
+  CitiesController.deleteByIdValidation,
+  CitiesController.deleteById
+);
 
 export { router };
