@@ -11,6 +11,7 @@ type TValidation = (schemas: Partial<TAllSchemas>) => RequestHandler;
 export const validation: TValidation = (schemas) => async (req, res, next) => {
   const errorsResult: Record<string, Record<string, string>> = {};
 
+  console.log(schemas);
   for (const [field, schema] of Object.entries(schemas)) {
     try {
       await schema.parse(req[field]);
@@ -19,8 +20,19 @@ export const validation: TValidation = (schemas) => async (req, res, next) => {
       const errors: Record<string, string> = {};
 
       zodError.errors.forEach((error) => {
-        if (!error.path.length) return;
-        errors[error.path.join(".")] = error.message;
+        if (error.code === "unrecognized_keys") {
+          // Para erros de chaves não reconhecidas, criar um erro para cada chave
+          error.keys?.forEach((key) => {
+            errors[key] = "Unrecognized key";
+          });
+        } else if (error.path.length === 0) {
+          // Outros erros no nível raiz
+          errors["_root"] = error.message;
+        } else {
+          // Erro em um campo específico
+          const fieldPath = error.path.join(".");
+          errors[fieldPath] = error.message;
+        }
       });
 
       errorsResult[field] = errors;
