@@ -8,6 +8,16 @@ router.get("/", (_: Request, res: Response) => {
   return res.send("Hello, World!");
 });
 
+router.get(
+  "/cities",
+  CitiesController.getAllValidation,
+  CitiesController.getAll
+);
+router.get(
+  "/cities/:id",
+  CitiesController.getByIdValidation,
+  CitiesController.getById
+);
 router.post(
   "/cities",
   CitiesController.createValidation,
