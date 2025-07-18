@@ -7,11 +7,13 @@ const queryCitiesSchema = z
   .object({
     page: z
       .string()
+      .regex(/^\d+$/, "Page number must be a valid integer")
       .transform((val) => parseInt(val, 10))
       .pipe(z.number().min(1, "Page number must be at least 1"))
       .optional(),
     limit: z
       .string()
+      .regex(/^\d+$/, "Limit must be a valid integer")
       .transform((val) => parseInt(val, 10))
       .pipe(z.number().min(1, "Limit must be at least 1"))
       .optional(),
