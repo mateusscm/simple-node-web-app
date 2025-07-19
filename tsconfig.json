@@ -7,5 +7,6 @@
     "outDir": "./build",
     "moduleResolution": "node",
     "resolveJsonModule": true
-  }
+  },
+  "exclude": ["./jest.config.ts", "./node_modules", "./build", "./tests"]
 }
