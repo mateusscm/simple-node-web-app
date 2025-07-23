@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev ./src/index.ts",
+    "build": "tsc",
     "production": "node ./build/index.js",
     "postinstall": "pnpm run build",
     "test": "jest"
