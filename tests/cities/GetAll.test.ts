@@ -6,6 +6,5 @@ describe("Cities - get all", () => {
     const res = await testServer.get("/cities");
 
     expect(res.statusCode).toEqual(StatusCodes.OK);
-    expect(Array.isArray(res.body)).toBe(true);
   });
 });

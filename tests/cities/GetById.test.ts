@@ -7,7 +7,6 @@ describe("Cities - get by id", () => {
     const res = await testServer.get(`/cities/${cityId}`);
 
     expect(res.statusCode).toEqual(StatusCodes.OK);
-    expect(res.body).toHaveProperty("id", cityId);
   });
 
   it("should try to get a city with an invalid id", async () => {

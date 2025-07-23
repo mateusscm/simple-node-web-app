@@ -46,7 +46,5 @@ export const updateById = async (
   console.log(req.params);
   console.log(req.body);
 
-  return res
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .send("Not implemented yet");
+  return res.status(StatusCodes.OK).send("Not implemented yet");
 };

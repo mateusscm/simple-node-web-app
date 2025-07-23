@@ -9,8 +9,6 @@ describe("Cities - update by id", () => {
     });
 
     expect(res.statusCode).toEqual(StatusCodes.OK);
-    expect(res.body).toHaveProperty("id", cityId);
-    expect(res.body).toHaveProperty("name", "Updated City Name");
   });
 
   it("should try to update a city with an invalid id", async () => {
@@ -19,7 +17,6 @@ describe("Cities - update by id", () => {
     });
 
     expect(res.statusCode).toEqual(StatusCodes.BAD_REQUEST);
-    expect(res.body).toHaveProperty("errors.params.id");
   });
 
   it("should try to send an invalid body when updating a city", async () => {

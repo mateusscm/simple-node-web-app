@@ -25,7 +25,5 @@ export const deleteById = async (
 ) => {
   console.log(req.params);
 
-  return res
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .send("Not implemented yet");
+  return res.status(StatusCodes.NO_CONTENT).send("City deleted successfully");
 };

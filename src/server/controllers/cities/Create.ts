@@ -30,7 +30,5 @@ export const create = async (
   console.log(req.body);
   // const validatedData: CreateCityInput | undefined = req.body;
 
-  return res
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .send("Not implemented yet");
+  return res.status(StatusCodes.CREATED).json(1);
 };

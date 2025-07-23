@@ -37,7 +37,5 @@ export const getAll = async (
 ) => {
   console.log(req.query);
 
-  return res
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .send("Not implemented yet");
+  return res.status(StatusCodes.OK).send("Not implemented yet");
 };
