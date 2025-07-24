@@ -43,11 +43,13 @@ export default defineConfig([
   },
   {
     rules: {
-      indent: ["error", 2],
+      indent: ["error", 2, { SwitchCase: 1 }],
       "linebreak-style": ["error", "unix"],
       quotes: ["error", "double"],
       semi: ["warn", "always"],
       "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
