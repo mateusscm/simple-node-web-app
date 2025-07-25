@@ -8,7 +8,7 @@ describe("Cities - create", () => {
     });
 
     expect(res1.statusCode).toEqual(StatusCodes.CREATED);
-    expect(typeof res1.body).toEqual("number");
+    expect(typeof res1.body).toEqual("string");
   });
 
   it("should try to create a short name city", async () => {
