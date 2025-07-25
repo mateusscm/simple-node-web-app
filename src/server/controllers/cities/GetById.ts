@@ -6,11 +6,7 @@ import { z } from "zod";
 
 const paramCitySchema = z
   .object({
-    id: z
-      .string()
-      .regex(/^\d+$/, "City ID must be a valid integer")
-      .transform((val) => parseInt(val, 10))
-      .pipe(z.number().min(1, "City ID must be a positive number")),
+    id: z.string().uuid("Invalid city ID"),
   })
   .strict();
 

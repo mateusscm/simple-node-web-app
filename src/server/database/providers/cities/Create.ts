@@ -14,8 +14,8 @@ export const create = async (
       return result;
     }
 
-    return new Error("Erro ao criar cidade");
+    return new Error("Error creating city: Invalid result type");
   } catch (_) {
-    return new Error("Erro ao criar cidade");
+    return new Error("Error creating city");
   }
 };

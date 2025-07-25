@@ -2,14 +2,11 @@ import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 import { validation } from "../../shared/middleware";
 import { z } from "zod";
+import { CitiesProvider } from "../../database/providers/cities";
 
 const paramCitySchema = z
   .object({
-    id: z
-      .string()
-      .regex(/^\d+$/, "City ID must be a valid integer")
-      .transform((val) => parseInt(val, 10))
-      .pipe(z.number().min(1, "City ID must be a positive number")),
+    id: z.string().uuid("Invalid city ID"),
   })
   .strict();
 
@@ -23,7 +20,23 @@ export const deleteById = async (
   req: Request<ParamCityInput, {}, {}>,
   res: Response
 ) => {
-  console.log(req.params);
+  if (!req.params.id) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      errors: {
+        default: "City ID is required",
+      },
+    });
+  }
 
-  return res.status(StatusCodes.NO_CONTENT).send("City deleted successfully");
+  const result = await CitiesProvider.deleteById(req.params.id);
+
+  if (result instanceof Error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      errors: {
+        default: result.message,
+      },
+    });
+  }
+
+  return res.status(StatusCodes.OK).json("City deleted successfully");
 };
