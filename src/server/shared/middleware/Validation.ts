@@ -11,7 +11,6 @@ type TValidation = (schemas: Partial<TAllSchemas>) => RequestHandler;
 export const validation: TValidation = (schemas) => async (req, res, next) => {
   const errorsResult: Record<string, Record<string, string>> = {};
 
-  console.log(schemas);
   for (const [field, schema] of Object.entries(schemas)) {
     try {
       await schema.parse(req[field]);
