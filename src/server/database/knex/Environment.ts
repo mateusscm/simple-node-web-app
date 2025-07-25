@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import "ts-node/register";
 import path from "path";
 
 export const development: Knex.Config = {
