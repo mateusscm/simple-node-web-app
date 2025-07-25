@@ -9,5 +9,10 @@
     "resolveJsonModule": true,
     "noImplicitAny": false
   },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
   "exclude": ["./jest.config.ts", "./node_modules", "./build", "./tests"]
 }
