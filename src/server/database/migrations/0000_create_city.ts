@@ -5,7 +5,7 @@ export async function up(knex: Knex) {
   return knex.schema
     .createTable(ETableNames.city, (table) => {
       table.uuid("id").defaultTo(knex.fn.uuid()).primary();
-      table.string("name", 150).index().notNullable();
+      table.string("name").checkLength("<=", 150).index().notNullable();
 
       table.comment("City table to store city information");
     })

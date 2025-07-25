@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { validation } from "../../shared/middleware";
 import { StatusCodes } from "http-status-codes";
 import { z } from "zod";
+import { CitiesProvider } from "../../database/providers/cities";
+import { ICity } from "../../database/models";
 
 const createCitySchema = z
   .object({
@@ -17,18 +19,20 @@ const createCitySchema = z
   })
   .strict();
 
-type CreateCityInput = z.infer<typeof createCitySchema>;
-
 export const createValidation = validation({
   body: createCitySchema,
 });
 
-export const create = async (
-  req: Request<{}, {}, CreateCityInput>,
-  res: Response
-) => {
-  console.log(req.body);
-  // const validatedData: CreateCityInput | undefined = req.body;
+export const create = async (req: Request<{}, {}, ICity>, res: Response) => {
+  const result = await CitiesProvider.create(req.body);
 
-  return res.status(StatusCodes.CREATED).json(1);
+  if (result instanceof Error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      errors: {
+        default: result.message,
+      },
+    });
+  }
+
+  return res.status(StatusCodes.CREATED).json(result);
 };
