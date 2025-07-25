@@ -2,9 +2,11 @@ import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 import { validation } from "../../shared/middleware";
 import { z } from "zod";
+import { CitiesProvider } from "../../database/providers/cities";
 
 const queryCitiesSchema = z
   .object({
+    id: z.string().optional().default(""),
     page: z
       .string()
       .regex(/^\d+$/, "Page number must be a valid integer")
@@ -35,7 +37,20 @@ export const getAll = async (
   req: Request<{}, {}, {}, QueryCitiesInput>,
   res: Response
 ) => {
-  console.log(req.query);
+  const result = await CitiesProvider.getAll(
+    req.query.page || 1,
+    req.query.limit || 10,
+    req.query.filter || "",
+    req.query.id || ""
+  );
 
-  return res.status(StatusCodes.OK).send("Not implemented yet");
+  if (result instanceof Error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      errors: {
+        default: result.message,
+      },
+    });
+  }
+
+  return res.status(StatusCodes.OK).json(result);
 };
