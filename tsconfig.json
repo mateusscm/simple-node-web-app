@@ -7,12 +7,23 @@
     "outDir": "./build",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"
-    }
+    },
+    "transpileOnly": true
   },
-  "exclude": ["./jest.config.ts", "./node_modules", "./build", "./tests"]
+  "include": ["src/**/*"],
+  "exclude": [
+    "./jest.config.ts",
+    "./node_modules",
+    "./build",
+    "./tests",
+    "./coverage",
+    "**/*.js"
+  ]
 }
