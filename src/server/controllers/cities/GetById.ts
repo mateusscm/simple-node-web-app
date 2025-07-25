@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { validation } from "../../shared/middleware";
 
 import { z } from "zod";
+import { CitiesProvider } from "../../database/providers/cities";
 
 const paramCitySchema = z
   .object({
@@ -20,7 +21,22 @@ export const getById = async (
   req: Request<ParamCityInput, {}, {}>,
   res: Response
 ) => {
-  console.log(req.params);
+  if (!req.params.id) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      errors: {
+        default: "City ID is required",
+      },
+    });
+  }
 
-  return res.status(StatusCodes.OK).send("Not implemented yet");
+  const city = await CitiesProvider.getById(req.params.id);
+  if (city instanceof Error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      errors: {
+        default: city.message,
+      },
+    });
+  }
+
+  return res.status(StatusCodes.OK).json(city);
 };
