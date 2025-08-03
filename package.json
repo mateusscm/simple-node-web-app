@@ -7,7 +7,7 @@
     "start": "ts-node-dev ./src/index.ts",
     "build": "tsc",
     "production": "node ./build/index.js",
-    "postinstall": "pnpm rebuild sqlite3 && pnpm run build",
+    "postinstall": "pnpm run build",
     "test": "jest",
     "knex:migrate": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:latest",
     "knex:seed": "knex --knexfile ./src/server/database/knex/Environment.ts seed:run",
@@ -42,9 +42,7 @@
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.36.0",
-    "node-gyp": "^10.0.1",
-    "python3": "^0.0.1"
+    "typescript-eslint": "^8.36.0"
   },
   "engines": {
     "node": "18.x"
