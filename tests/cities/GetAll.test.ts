@@ -10,6 +10,8 @@ describe("Cities - get all", () => {
     expect(resCreated.statusCode).toEqual(StatusCodes.CREATED);
 
     const resGetAll = await testServer.get("/cities");
+
+    expect(Number(resGetAll.header["x-total-count"])).toBeGreaterThan(0);
     expect(resGetAll.statusCode).toEqual(StatusCodes.OK);
     expect(resGetAll.body.length).toBeGreaterThan(0);
   });

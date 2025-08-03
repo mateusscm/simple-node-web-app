@@ -43,6 +43,7 @@ export const getAll = async (
     req.query.filter || "",
     req.query.id || ""
   );
+  const resultCount = await CitiesProvider.count(req.query.filter);
 
   if (result instanceof Error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -50,7 +51,16 @@ export const getAll = async (
         default: result.message,
       },
     });
+  } else if (resultCount instanceof Error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      errors: {
+        default: resultCount.message,
+      },
+    });
   }
+
+  res.setHeader("access-control-expose-headers", "x-total-count");
+  res.setHeader("x-total-count", resultCount);
 
   return res.status(StatusCodes.OK).json(result);
 };
