@@ -3,7 +3,7 @@ import "ts-node/register";
 import path from "path";
 
 export const development: Knex.Config = {
-  client: "sqlite3",
+  client: "better-sqlite3",
   useNullAsDefault: true,
   connection: {
     filename: path.resolve(
@@ -23,7 +23,7 @@ export const development: Knex.Config = {
   },
   pool: {
     afterCreate: (connection: any, done: Function) => {
-      connection.run("PRAGMA foreign_keys = ON");
+      connection.pragma("foreign_keys = ON");
       done();
     },
   },
