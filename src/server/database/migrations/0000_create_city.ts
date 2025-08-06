@@ -4,8 +4,8 @@ import { ETableNames } from "../ETableNames";
 export async function up(knex: Knex) {
   return knex.schema
     .createTable(ETableNames.city, (table) => {
-      table.uuid("id").defaultTo(knex.fn.uuid()).primary();
-      table.string("name").checkLength("<=", 150).index().notNullable();
+      table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
+      table.string("name", 150).index().notNullable();
 
       table.comment("City table to store city information");
     })
