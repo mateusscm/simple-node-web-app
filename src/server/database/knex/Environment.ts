@@ -2,6 +2,9 @@
 import { Knex } from "knex";
 import "ts-node/register";
 import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env") });
 
 export const development: Knex.Config = {
   client: "pg",
@@ -30,14 +33,9 @@ export const development: Knex.Config = {
 };
 
 export const test: Knex.Config = {
-  client: "pg",
-  connection: {
-    host: process.env.DB_HOST || "localhost",
-    port: Number(process.env.DB_PORT) || 5432,
-    user: process.env.DB_USER || "postgres",
-    password: process.env.DB_PASSWORD || "postgres",
-    database: process.env.DB_NAME_TEST || "node_api_test",
-  },
+  client: "sqlite3",
+  useNullAsDefault: true,
+  connection: ":memory:",
   migrations: {
     directory: path.resolve(__dirname, "..", "migrations"),
   },
@@ -45,8 +43,10 @@ export const test: Knex.Config = {
     directory: path.resolve(__dirname, "..", "seeds"),
   },
   pool: {
-    min: 1,
-    max: 5,
+    afterCreate: (conn, done) => {
+      conn.run("PRAGMA foreign_keys = ON");
+      done();
+    },
   },
 };
 
