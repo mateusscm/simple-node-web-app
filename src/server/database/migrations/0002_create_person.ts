@@ -5,25 +5,31 @@ export async function up(knex: Knex) {
   return knex.schema
     .createTable(ETableNames.person, (table) => {
       if (process.env.NODE_ENV === "test") {
+        // test (SQLite)
         table.uuid("id").defaultTo(knex.fn.uuid()).primary();
-        table.string("first_name").checkLength("<=", 100).notNullable();
-        table.string("last_name").checkLength("<=", 100).notNullable();
-        table.string("email").checkLength("<=", 150).index().notNullable();
+        table.string("first_name").notNullable();
+        table.string("last_name").notNullable();
+        table.string("email").unique().notNullable();
         table
           .uuid("city_id")
           .references("id")
           .inTable(ETableNames.city)
-          .notNullable();
+          .notNullable()
+          .onUpdate("CASCADE")
+          .onDelete("RESTRICT");
       } else {
+        // dev & production (PG)
         table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
         table.string("first_name", 100).notNullable();
         table.string("last_name", 100).notNullable();
-        table.string("email", 150).index().notNullable();
+        table.string("email", 150).unique().notNullable();
         table
           .uuid("city_id")
           .references("id")
           .inTable(ETableNames.city)
-          .notNullable();
+          .notNullable()
+          .onUpdate("CASCADE")
+          .onDelete("RESTRICT");
       }
 
       table.comment("Person table to store person information");
