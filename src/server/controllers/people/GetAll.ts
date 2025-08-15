@@ -2,7 +2,6 @@ import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 import { validation } from "../../shared/middleware";
 import { z } from "zod";
-import { CitiesProvider } from "../../database/providers/cities";
 import { PeopleProvider } from "../../database/providers/people";
 
 const queryPeopleSchema = z
@@ -44,7 +43,7 @@ export const getAll = async (
     req.query.filter || "",
     req.query.id || ""
   );
-  const resultCount = await CitiesProvider.count(req.query.filter);
+  const resultCount = await PeopleProvider.count(req.query.filter);
 
   if (result instanceof Error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
