@@ -48,4 +48,45 @@ describe("People - create", () => {
     expect(resPerson.body).toHaveProperty("errors.body.last_name");
     expect(resPerson.body).toHaveProperty("errors.body.email");
   });
+
+  // should try to create a person with invalid email
+  it("should try to create a person with invalid email", async () => {
+    const resPerson = await testServer.post("/people").send({
+      first_name: "John",
+      last_name: "Doe",
+      email: "invalid-email",
+      city_id: cityId,
+    });
+
+    expect(resPerson.statusCode).toEqual(StatusCodes.BAD_REQUEST);
+    expect(resPerson.body).toHaveProperty("errors.body.email");
+  });
+
+  // should try to create a person with non-existent city
+  it("should try to create a person with non-existent city", async () => {
+    const resPerson = await testServer.post("/people").send({
+      first_name: "John",
+      last_name: "Doe",
+      email: `john.doe.${Date.now()}@example.com`,
+      city_id: "non-existent-city-id",
+    });
+
+    expect(resPerson.statusCode).toEqual(StatusCodes.BAD_REQUEST);
+    expect(resPerson.body).toHaveProperty("errors.body.city_id");
+  });
+
+  // should try to create a person with long names
+  it("should try to create a person with names too long", async () => {
+    const longName = "a".repeat(51); // 51 characters
+    const resPerson = await testServer.post("/people").send({
+      first_name: longName,
+      last_name: longName,
+      email: `long.name.${Date.now()}@example.com`,
+      city_id: cityId,
+    });
+
+    expect(resPerson.statusCode).toEqual(StatusCodes.BAD_REQUEST);
+    expect(resPerson.body).toHaveProperty("errors.body.first_name");
+    expect(resPerson.body).toHaveProperty("errors.body.last_name");
+  });
 });
