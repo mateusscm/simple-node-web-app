@@ -46,4 +46,10 @@ router.get(
   PeopleController.getAll
 );
 
+router.get(
+  "/people/:id",
+  PeopleController.getByValidation,
+  PeopleController.getById
+);
+
 export { router };
