@@ -52,4 +52,10 @@ router.get(
   PeopleController.getById
 );
 
+router.put(
+  "/people/:id",
+  PeopleController.updateByIdValidation,
+  PeopleController.updateById
+);
+
 export { router };
