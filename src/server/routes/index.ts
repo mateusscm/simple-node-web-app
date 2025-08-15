@@ -58,4 +58,10 @@ router.put(
   PeopleController.updateById
 );
 
+router.delete(
+  "/people/:id",
+  PeopleController.deleteByIdValidation,
+  PeopleController.deleteById
+);
+
 export { router };
