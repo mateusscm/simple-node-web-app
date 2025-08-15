@@ -13,7 +13,7 @@ describe("People - create", () => {
     const resPerson = await testServer.post("/people").send({
       first_name: "John",
       last_name: "Doe",
-      email: "john.doe@example.com",
+      email: `john.doe.${Date.now()}@example.com`,
       city_id: cityId,
     });
 
@@ -26,7 +26,7 @@ describe("People - create", () => {
     const resPerson = await testServer.post("/people").send({
       first_name: "J",
       last_name: "Doe",
-      email: "john.doe@example.com",
+      email: `j.doe.${Date.now()}@example.com`,
       city_id: cityId,
     });
 
